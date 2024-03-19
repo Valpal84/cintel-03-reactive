@@ -1,6 +1,6 @@
 import plotly.express as px
 from shiny.express import input, ui
-from shiny import render
+from shiny import render, reactive
 from shinywidgets import render_plotly
 import palmerpenguins
 import seaborn as sns
@@ -109,4 +109,15 @@ with ui.layout_columns():
                     'Gentoo': 'yellow'},
             )
                 
+# --------------------------------------------------------
+# Reactive calculations and effects
+# --------------------------------------------------------
 
+# Add a reactive calculation to filter the data
+# By decorating the function with @reactive, we can use the function to filter the data
+# The function will be called whenever an input functions used to generate that output changes.
+# Any output that depends on the reactive function (e.g., filtered_data()) will be updated when the data changes.
+
+@reactive.calc
+def filtered_data():
+    return penguins_df
