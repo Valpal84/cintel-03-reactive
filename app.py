@@ -55,13 +55,13 @@ with ui.layout_columns():
 
             @render.data_frame
             def penguins_data_table():
-                return render.DataTable(penguins_df)
+                return render.DataTable(filtered_data())
 
         with ui.nav_panel("Data Grid"):
 
             @render.data_frame
             def penguins_data_grid():
-                return render.DataGrid(penguins_df)
+                return render.DataGrid(filtered_data())
 
     # Display a plotly histogram showing all species
     with ui.navset_card_pill(id="tab2"):
@@ -70,7 +70,7 @@ with ui.layout_columns():
             @render_plotly
             def plotly_histogram():
                 plotly_hist = px.histogram(
-                    data_frame=penguins_df,
+                    data_frame=filtered_data(),
                     x=input.Selected_attribute(),
                     nbins=input.plotly_bin_count(),
                     color="species",
@@ -86,7 +86,7 @@ with ui.layout_columns():
         with ui.nav_panel("Seaborn Penguin Histogram"):
             @render.plot
             def seaborn_histogram():
-               histplot = sns.histplot(data=penguins_df, x="body_mass_g", hue="species", bins=input.seaborn_bin_count())
+               histplot = sns.histplot(data=filtered_data(), x="body_mass_g", hue="species", bins=input.seaborn_bin_count())
                histplot.set_title("Palmer Penguins")
                histplot.set_xlabel("Mass")
                histplot.set_ylabel("Count")
@@ -99,7 +99,7 @@ with ui.layout_columns():
         @render_plotly
         def plotly_scatterplot():
             return px.scatter(
-                penguins_df,
+                filtered_data(),
                 x="body_mass_g",
                 y="bill_depth_mm",
                 color="species",
